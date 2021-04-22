@@ -1,13 +1,18 @@
 #!/usr/bin/python
 
+import sys
+import os.path
 import random
 import math
-import Image
+from PIL import Image
+
+fin = sys.argv[1]
+fout = os.path.basename(fin) + "-enc.jpg"
 
 imPattern = Image.open("pattern.jpg")
 imPatternSize = imPattern.size
 
-imDepth = Image.open("depth.jpg")
+imDepth = Image.open(fin)
 imDepthSize = imDepth.size
 factorY = imPatternSize[1] / float(imDepthSize[1])
 imDepthSize = (int(imDepthSize[0]*factorY), int(imDepthSize[1]*factorY))
@@ -30,5 +35,5 @@ for i in range(0,size[0]):
 			colour = im.getpixel((i-stripWidth, j))
 		im.putpixel((i,j), colour)
 
-im.show()
+im.save(fout)
 
